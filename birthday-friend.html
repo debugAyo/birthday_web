@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Prevent theme flash: apply saved theme before render -->
+  <script>(function(){var t=localStorage.getItem('birthday-theme');if(t){document.documentElement.setAttribute('data-theme',t);}else{document.documentElement.setAttribute('data-theme','light');}})();</script>
+
+  <!-- ✦ CHANGE: Recipient name for page title & description -->
+  <title>Happy Birthday ✦ Precious</title>
+  <meta name="theme-color" content="#FDF6F0">
+  <meta name="description" content="A special birthday surprise for Precious Mosunmola Oni">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Alex+Brush&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ===== THEME TOGGLE ===== -->
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+    <svg class="theme-icon theme-icon--sun" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+      <circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/>
+      <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+    <svg class="theme-icon theme-icon--moon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+
+  <!-- ===== SECTION NAVIGATION ===== -->
+  <nav class="section-nav" id="sectionNav" aria-label="Section navigation">
+    <button class="nav-dot is-active" data-index="0" aria-label="Go to welcome"></button>
+    <button class="nav-dot" data-index="1" aria-label="Open your surprise"></button>
+    <button class="nav-dot" data-index="2" aria-label="Read the letter"></button>
+    <button class="nav-dot" data-index="3" aria-label="View memories"></button>
+    <button class="nav-dot" data-index="4" aria-label="Celebration"></button>
+  </nav>
+
+  <main>
+
+    <!-- ============================================================
+         SECTION 1 — WELCOME
+         ============================================================ -->
+    <section id="welcome" class="section" data-index="0">
+      <div class="particles-wrapper" id="particlesWrapper" aria-hidden="true"></div>
+
+      <div class="welcome-content">
+        <p class="teaser">Something special is here for you...</p>
+        <div class="welcome-divider" aria-hidden="true">
+          <span class="divider-line"></span>
+          <span class="divider-ornament">&#10022;</span>
+          <span class="divider-line"></span>
+        </div>
+        <h1 class="welcome-title">Happy Birthday</h1>
+        <!-- ✦ CHANGE: Recipient name -->
+        <p class="welcome-name">Precious Mosunmola Oni</p>
+      </div>
+
+      <div class="scroll-hint">
+        <span>Scroll to explore</span>
+        <svg class="scroll-arrow" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">
+          <path d="M7 13l5 5 5-5M7 6l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+
+      <!-- ✦ CHANGE: Birthday date (ISO format YYYY-MM-DD) -->
+      <aside class="countdown" aria-label="Countdown to birthday">
+        <p class="countdown-label">Countdown to your day</p>
+        <p class="countdown-timer" id="countdownTimer">--d --h --m --s</p>
+      </aside>
+    </section>
+
+    <!-- ============================================================
+         SECTION 2 — SURPRISE REVEAL
+         ============================================================ -->
+    <section id="reveal" class="section" data-index="1">
+      <h2 class="sr-only">Surprise Reveal</h2>
+
+      <div class="reveal-container">
+        <div class="envelope" id="envelope" role="button" tabindex="0" aria-label="Open your surprise">
+          <div class="envelope-body">
+            <!-- Corner accents -->
+            <div class="env-corner env-corner--tl" aria-hidden="true"></div>
+            <div class="env-corner env-corner--tr" aria-hidden="true"></div>
+            <div class="env-corner env-corner--bl" aria-hidden="true"></div>
+            <div class="env-corner env-corner--br" aria-hidden="true"></div>
+
+            <!-- Sparkle burst (created on open) -->
+            <div class="sparkle-burst" id="sparkleBurst" aria-hidden="true"></div>
+
+            <!-- Inside content (hidden until opened) — reveals a poem -->
+            <div class="envelope-inside">
+              <div class="envelope-glow"></div>
+              <div class="envelope-poem">
+                <p class="env-poem-line" data-text="soft as a breeze in the wheat is her hair,"></p>
+                <p class="env-poem-line" data-text="wild as the winds of a tempest is her nature,"></p>
+                <p class="env-poem-line" data-text="elegant as a leaf floating in the autumnal gale,"></p>
+                <p class="env-poem-line" data-text="sweetly scented as a spring morn."></p>
+                <p class="env-poem-attribution" data-text="— The Poette"></p>
+              </div>
+            </div>
+            <!-- Front cover (slides away on open) -->
+            <div class="envelope-cover">
+              <div class="envelope-flap-top"></div>
+              <div class="envelope-seal">
+                <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+                  <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="currentColor"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="reveal-hint" id="revealHint">Tap to open</p>
+        <p class="reveal-hint reveal-hint--opened">&#10024; A letter awaits you... &#10024;</p>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION 3 — LETTER
+         ============================================================ -->
+    <section id="letter" class="section" data-index="2" aria-hidden="true">
+      <article class="letter-card">
+        <div class="letter-seal" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="currentColor"/>
+          </svg>
+        </div>
+
+        <h2 class="letter-title">For You, <span class="letter-name">Precious</span></h2>
+
+        <div class="letter-body">
+          <!-- ✦ CHANGE: Letter content — edit each paragraph as desired -->
+          <p class="letter-paragraph">From the moment our paths crossed, you've carried a quiet grace that leaves everyone around you a little warmer, a little lighter. Your calm nature, your gentle strength, your brilliant mind — they ripple through every life you touch.</p>
+          <p class="letter-paragraph">Today, on your special day, I wanted to remind you just how extraordinary you are. You move through this world like the wind itself — sometimes a soft breeze that soothes, sometimes a steady force that inspires. Never doubt the beauty of who you are.</p>
+          <p class="letter-paragraph">May this new year of your life bring you the same peace you bring to others, the same light you radiate, and the same depth of love you so freely give. You are rare. You are precious — in every sense of the word.</p>
+        </div>
+
+        <!-- Poem inset -->
+        <div class="letter-poem">
+          <div class="letter-poem-divider" aria-hidden="true">
+            <span class="divider-line"></span>
+            <span class="divider-ornament">&#10022;</span>
+            <span class="divider-line"></span>
+          </div>
+
+          <!-- Poem 2: Whispers in the Breeze -->
+          <div class="poem-block">
+            <p class="poem-block-line" data-text="Your voice is like a gentle breeze,"></p>
+            <p class="poem-block-line" data-text="that dances through the autumn trees."></p>
+            <p class="poem-block-line" data-text="It whispers calm to restless seas,"></p>
+            <p class="poem-block-line" data-text="and brings my weary soul to ease."></p>
+            <br>
+            <p class="poem-block-line" data-text="No thunder shouts, no storms arise,"></p>
+            <p class="poem-block-line" data-text="just quiet stars in moonlit skies."></p>
+            <p class="poem-block-line" data-text="Your presence, a light that softly stays,"></p>
+            <p class="poem-block-line" data-text="and wraps my heart in warmest praise."></p>
+            <p class="poem-block-attribution" data-text="— Rochan, Whispers in the Breeze"></p>
+          </div>
+
+          <div class="letter-poem-divider" aria-hidden="true">
+            <span class="divider-line"></span>
+            <span class="divider-ornament">&#10022;</span>
+            <span class="divider-line"></span>
+          </div>
+
+          <!-- Poem 3: Who Has Seen the Wind? -->
+          <div class="poem-block">
+            <p class="poem-block-line" data-text="Who has seen the wind?"></p>
+            <p class="poem-block-line" data-text="Neither I nor you:"></p>
+            <p class="poem-block-line" data-text="But when the leaves hang trembling,"></p>
+            <p class="poem-block-line" data-text="the wind is passing through."></p>
+            <br>
+            <p class="poem-block-line" data-text="Who has seen the wind?"></p>
+            <p class="poem-block-line" data-text="Neither you nor I:"></p>
+            <p class="poem-block-line" data-text="But when the trees bow down their heads,"></p>
+            <p class="poem-block-line" data-text="the wind is passing by."></p>
+            <p class="poem-block-attribution" data-text="— Christina Rossetti"></p>
+          </div>
+        </div>
+
+        <!-- ✦ CHANGE: Signature -->
+        <p class="letter-signature">With all my heart,<br><span class="signature-name">[SIGNATURE]</span></p>
+      </article>
+    </section>
+
+    <!-- ============================================================
+         SECTION 4 — MEMORIES
+         ============================================================ -->
+    <section id="memories" class="section" data-index="3">
+      <h2 class="section-title">Moments We've Shared</h2>
+
+      <div class="memory-grid">
+        <!-- ✦ CHANGE: Memory cards — edit captions and image placeholder colors -->
+        <figure class="memory-card">
+          <div class="memory-placeholder" style="background: linear-gradient(135deg, #F5D6D0, #E8C4C0)">
+            <svg class="memory-icon" viewBox="0 0 48 48" width="44" height="44" aria-hidden="true">
+              <path d="M32 16h4a4 4 0 0 1 0 8h-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+              <rect x="8" y="16" width="24" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/>
+              <path d="M12 16v-4h16v4" fill="none" stroke="currentColor" stroke-width="1.8"/>
+              <path d="M16 32v4h8v-4" fill="none" stroke="currentColor" stroke-width="1.8"/>
+            </svg>
+          </div>
+          <figcaption class="memory-caption">"soft as a breeze in the wheat is her hair"<br><span class="memory-caption-src">— The Poette</span></figcaption>
+        </figure>
+
+        <figure class="memory-card">
+          <div class="memory-placeholder" style="background: linear-gradient(135deg, #D4C5E2, #C4B5D2)">
+            <svg class="memory-icon" viewBox="0 0 48 48" width="44" height="44" aria-hidden="true">
+              <path d="M28 10a14 14 0 1 0 14 14 12 12 0 0 1-14-14z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <figcaption class="memory-caption">"whispers calm to restless seas"<br><span class="memory-caption-src">— Rochan</span></figcaption>
+        </figure>
+
+        <figure class="memory-card">
+          <div class="memory-placeholder" style="background: linear-gradient(135deg, #B8D4B8, #A8C4A8)">
+            <svg class="memory-icon" viewBox="0 0 48 48" width="44" height="44" aria-hidden="true">
+              <circle cx="24" cy="24" r="6" fill="none" stroke="currentColor" stroke-width="1.8"/>
+              <path d="M24 4v4M24 40v4M4 24h4M40 24h4M8.7 8.7l2.8 2.8M36.5 36.5l2.8 2.8M8.7 39.3l2.8-2.8M36.5 11.5l2.8-2.8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <figcaption class="memory-caption">"who has seen the wind? neither I nor you"<br><span class="memory-caption-src">— Christina Rossetti</span></figcaption>
+        </figure>
+
+        <figure class="memory-card">
+          <div class="memory-placeholder" style="background: linear-gradient(135deg, #E8D5B7, #D8C5A7)">
+            <svg class="memory-icon" viewBox="0 0 48 48" width="44" height="44" aria-hidden="true">
+              <path d="M24 4l4.6 9.3 10.4 1.5-7.5 7.3 1.8 10.4L24 28l-9.3 4.9 1.8-10.4-7.5-7.3 10.4-1.5z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <figcaption class="memory-caption">"I am the whisper, not the shout"<br><span class="memory-caption-src">— I, the Kindness</span></figcaption>
+        </figure>
+
+        <figure class="memory-card">
+          <div class="memory-placeholder" style="background: linear-gradient(135deg, #C5E0E8, #B5D0D8)">
+            <svg class="memory-icon" viewBox="0 0 48 48" width="44" height="44" aria-hidden="true">
+              <path d="M24 2l8 14 14 2-10 10 2 14-14-6-14 6 2-14L2 18l14-2z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <figcaption class="memory-caption">"you touch my heart and mind like the cool breeze"<br><span class="memory-caption-src">— Anil Kumar Panda</span></figcaption>
+        </figure>
+
+        <figure class="memory-card">
+          <div class="memory-placeholder" style="background: linear-gradient(135deg, #E8C5D0, #D8B5C0)">
+            <svg class="memory-icon" viewBox="0 0 48 48" width="44" height="44" aria-hidden="true">
+              <path d="M24 42l-2.9-2.6C9.1 28.7 2 22.4 2 14.7 2 8.4 7.1 3 13 3c3.5 0 6.8 1.8 8.7 4.6C24.6 4.8 27.9 3 31.4 3 37.3 3 42.4 8.4 42.4 14.7c0 7.7-7.1 14-19.1 24.7L24 42z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <figcaption class="memory-caption">"the wind, soft and constant, wraps my soul"<br><span class="memory-caption-src">— Mohammad Younus</span></figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION 5 — CELEBRATION
+         ============================================================ -->
+    <section id="celebration" class="section" data-index="4">
+      <!-- Confetti canvas overlay -->
+      <canvas id="confettiCanvas" aria-hidden="true"></canvas>
+
+      <!-- Floating balloons -->
+      <div class="balloons-container" id="balloonsContainer" aria-hidden="true"></div>
+
+      <div class="celebration-content">
+        <div class="welcome-divider" aria-hidden="true">
+          <span class="divider-line"></span>
+          <span class="divider-ornament">&#10022;</span>
+          <span class="divider-line"></span>
+        </div>
+
+        <p class="celebration-prelude">And finally...</p>
+
+        <!-- ✦ CHANGE: The main birthday greeting (typed out) -->
+        <h2 class="birthday-message" id="typewriterText"></h2>
+
+        <!-- ✦ CHANGE: Final wish -->
+        <p class="final-wish">Wishing you a year as beautiful as your heart.</p>
+
+        <div class="celebration-poem">
+          <div class="welcome-divider" aria-hidden="true">
+            <span class="divider-line"></span>
+            <span class="divider-ornament">&#10022;</span>
+            <span class="divider-line"></span>
+          </div>
+          <p class="celebration-poem-line">"Like the cool breeze that touches everything with gentle grace,</p>
+          <p class="celebration-poem-line">may your days be wrapped in warmth, your nights in soft embrace."</p>
+          <p class="celebration-poem-attribution">— Anil Kumar Panda, <em>Like The Cool Breeze</em></p>
+        </div>
+      </div>
+
+      <footer class="site-footer">
+        <p>&#10022; Made with love &#10022;</p>
+      </footer>
+    </section>
+
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
