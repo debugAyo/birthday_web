@@ -9,7 +9,7 @@
 const RECIPIENT_NAME = 'Precious Mosunmola Oni';
 
 // ✦ CHANGE: Birthday date in ISO format (YYYY-MM-DD)
-const BIRTHDAY_DATE = '2026-12-25';
+const BIRTHDAY_DATE = '2026-07-23';
 
 // ✦ CHANGE: Typewriter greeting (the main birthday line)
 const TYPEWRITER_TEXT = `Happy Birthday, ${RECIPIENT_NAME.split(' ')[0]}!`;
@@ -50,6 +50,12 @@ const canvas       = document.getElementById('confettiCanvas');
 const balloonsC    = document.getElementById('balloonsContainer');
 const typewriterEl = document.getElementById('typewriterText');
 const sparkleBurstEl = document.getElementById('sparkleBurst');
+const nameGate       = document.getElementById('nameGate');
+const nameGateForm   = document.getElementById('nameGateForm');
+const nameGateInput  = document.getElementById('nameGateInput');
+const birthdayOverlay    = document.getElementById('birthdayOverlay');
+const birthdayOverlayBtn = document.getElementById('birthdayOverlayBtn');
+const birthdayConfetti   = document.getElementById('birthdayConfetti');
 
 /* =============================================================
    1. THEME TOGGLE
@@ -75,6 +81,146 @@ themeToggle.addEventListener('click', () => {
   const current = html.getAttribute('data-theme');
   setTheme(current === 'dark' ? 'light' : 'dark');
 });
+
+/* =============================================================
+   1b. NAME GATE
+   ============================================================= */
+function initNameGate() {
+  const guestName = sessionStorage.getItem('birthday-guest');
+  if (guestName) {
+    nameGate.classList.add('is-hidden');
+    return;
+  }
+
+  nameGateForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const name = nameGateInput.value.trim();
+    if (!name) return;
+    sessionStorage.setItem('birthday-guest', name);
+    nameGate.classList.add('is-hidden');
+  });
+}
+
+/* =============================================================
+   1c. BIRTHDAY OVERLAY
+   ============================================================= */
+let birthdayOverlayShown = false;
+let birthdayConfettiRunning = false;
+let birthdayConfettiParticles = [];
+
+function isBirthdayToday() {
+  const now = new Date();
+  const target = new Date(BIRTHDAY_DATE + 'T00:00:00');
+  return (
+    now.getFullYear() === target.getFullYear() &&
+    now.getMonth() === target.getMonth() &&
+    now.getDate() === target.getDate()
+  );
+}
+
+function showBirthdayOverlay() {
+  if (birthdayOverlayShown) return;
+  birthdayOverlayShown = true;
+  birthdayOverlay.hidden = false;
+  birthdayOverlay.classList.add('is-visible');
+  startBirthdayConfetti();
+
+  birthdayOverlayBtn.addEventListener('click', () => {
+    birthdayOverlay.classList.add('is-hidden');
+    stopBirthdayConfetti();
+  });
+}
+
+function startBirthdayConfetti() {
+  if (birthdayConfettiRunning) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  birthdayConfettiRunning = true;
+  const ctx = birthdayConfetti.getContext('2d');
+  const cw = birthdayConfetti.width = window.innerWidth;
+  const ch = birthdayConfetti.height = window.innerHeight;
+
+  const cx = cw / 2;
+  const cy = ch * 0.3;
+  const shapes = ['rect', 'circle', 'heart'];
+
+  birthdayConfettiParticles = [];
+  for (let i = 0; i < CONFETTI_COUNT; i++) {
+    const angle = Math.random() * Math.PI * 2;
+    const speed = 3 + Math.random() * 8;
+    const burstRad = Math.random() * 150;
+    birthdayConfettiParticles.push({
+      x: cx + Math.cos(angle) * burstRad,
+      y: cy + Math.sin(angle) * burstRad * 0.6,
+      vx: Math.cos(angle) * speed * (0.4 + Math.random() * 0.6),
+      vy: Math.sin(angle) * speed * (0.4 + Math.random() * 0.6) - 4,
+      size: 5 + Math.random() * 6,
+      color: CONFETTI_COLORS[Math.floor(Math.random() * CONFETTI_COLORS.length)],
+      rotation: Math.random() * 360,
+      rotSpeed: (Math.random() - 0.5) * 12,
+      opacity: 1,
+      shape: shapes[Math.floor(Math.random() * shapes.length)],
+      gravity: 0.2 + Math.random() * 0.15,
+      wind: (Math.random() - 0.5) * 0.3
+    });
+  }
+
+  function animate() {
+    if (!birthdayConfettiRunning) return;
+    ctx.clearRect(0, 0, cw, ch);
+    let alive = false;
+
+    birthdayConfettiParticles.forEach(p => {
+      p.vy += p.gravity;
+      p.vx += p.wind;
+      p.x += p.vx;
+      p.y += p.vy;
+      p.rotation += p.rotSpeed;
+
+      if (p.y > ch * 0.6) {
+        p.opacity = Math.max(0, p.opacity - 0.008);
+      }
+
+      if (p.opacity <= 0 || p.y > ch + 50) return;
+      alive = true;
+
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate((p.rotation * Math.PI) / 180);
+      ctx.globalAlpha = p.opacity;
+      ctx.fillStyle = p.color;
+
+      if (p.shape === 'rect') {
+        ctx.fillRect(-p.size / 2, -p.size / 4, p.size, p.size / 2);
+      } else if (p.shape === 'heart') {
+        const s = p.size / 2;
+        ctx.beginPath();
+        ctx.moveTo(0, s * 0.6);
+        ctx.bezierCurveTo(-s * 1.2, -s * 0.2, -s * 0.6, -s * 0.9, 0, -s * 0.4);
+        ctx.bezierCurveTo(s * 0.6, -s * 0.9, s * 1.2, -s * 0.2, 0, s * 0.6);
+        ctx.fill();
+      } else {
+        ctx.beginPath();
+        ctx.arc(0, 0, p.size / 2, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      ctx.restore();
+    });
+
+    if (alive) {
+      requestAnimationFrame(animate);
+    } else {
+      birthdayConfettiRunning = false;
+    }
+  }
+
+  animate();
+}
+
+function stopBirthdayConfetti() {
+  birthdayConfettiRunning = false;
+}
 
 /* =============================================================
    2. FLOATING PARTICLES (Welcome Section)
@@ -251,12 +397,12 @@ function revealLetterAndPoems(afterEnvelopePoemDone) {
 
         const block = poemBlocks[blockIndex];
         const lines = block.querySelectorAll('.poem-block-line, .poem-block-attribution');
-        const speeds = Array(lines.length).fill(65);
-        if (lines.length > 0) speeds[lines.length - 1] = 80; // attribution slower
+        const speeds = Array(lines.length).fill(40);
+        if (lines.length > 0) speeds[lines.length - 1] = 50; // attribution slower
 
-        typePoemBlock(lines, speeds, 1800, () => {
+        typePoemBlock(lines, speeds, 1000, () => {
           blockIndex++;
-          setTimeout(typeNextPoemBlock, 3000);
+          setTimeout(typeNextPoemBlock, 1800);
         });
       }
 
@@ -284,11 +430,11 @@ function openEnvelope() {
     return;
   }
 
-  const speeds = [90, 90, 90, 90, 70]; // 90ms per char for lines, 70 for attribution
+  const speeds = [50, 50, 50, 50, 40]; // 50ms per char for lines, 40 for attribution
 
-  typePoemBlock(poemLines, speeds, 2000, () => {
+  typePoemBlock(poemLines, speeds, 1200, () => {
     // --- POEM 1 done → after a pause, reveal letter + POEMS 2 & 3 ---
-    setTimeout(() => revealLetterAndPoems(), 2000);
+    setTimeout(() => revealLetterAndPoems(), 1200);
   });
 }
 
@@ -567,3 +713,125 @@ window.addEventListener('resize', () => {
    11. INIT — Set initial dot state
    ============================================================= */
 updateActiveDot();
+
+/* =============================================================
+   12. IMAGE ORIENTATION — adjust object-position to avoid cutting heads
+   Detects portrait images and adds a `portrait` class to the
+   `.memory-placeholder` so CSS can show the top of the image.
+   ============================================================= */
+function adjustMemoryImageOrientation() {
+  const imgs = document.querySelectorAll('.memory-placeholder img');
+  imgs.forEach(img => {
+    const parent = img.closest('.memory-placeholder');
+    if (!parent) return;
+
+    function applyOrientationClasses() {
+      if (img.naturalHeight && img.naturalWidth) {
+        if (img.naturalHeight > img.naturalWidth) {
+          parent.classList.add('portrait');
+          parent.classList.remove('landscape');
+        } else {
+          parent.classList.add('landscape');
+          parent.classList.remove('portrait');
+        }
+      }
+    }
+
+    // Compute focus Y based on edge energy center to avoid cropping faces
+    function computeFocusAndApply() {
+      try {
+        const w = 80; // small analysis size
+        const h = 80;
+        const canvas = document.createElement('canvas');
+        canvas.width = w;
+        canvas.height = h;
+        const ctx = canvas.getContext('2d');
+        // draw image covering the analysis canvas
+        ctx.drawImage(img, 0, 0, w, h);
+        const data = ctx.getImageData(0, 0, w, h).data;
+
+        let edgeSum = 0;
+        let weightedY = 0;
+
+        function lumAt(x, y) {
+          const i = (y * w + x) * 4;
+          return (data[i] + data[i+1] + data[i+2]) / 3;
+        }
+
+        for (let y = 1; y < h; y++) {
+          for (let x = 1; x < w; x++) {
+            const v = Math.abs(lumAt(x, y) - lumAt(x-1, y)) + Math.abs(lumAt(x, y) - lumAt(x, y-1));
+            // weight edges slightly to prefer more contrast (likely faces/subjects)
+            edgeSum += v;
+            weightedY += v * y;
+          }
+        }
+
+        let focusY = 50; // percent fallback
+        if (edgeSum > 1e-3) {
+          const centerY = weightedY / edgeSum; // 0..h
+          focusY = Math.min(85, Math.max(15, Math.round((centerY / h) * 100)));
+        } else {
+          // fallback to portrait/landscape heuristic
+          if (img.naturalHeight && img.naturalWidth && img.naturalHeight > img.naturalWidth) {
+            focusY = 25; // prefer top for tall photos
+          } else {
+            focusY = 50;
+          }
+        }
+
+        // Apply object-position directly to image for best effect
+        img.style.objectPosition = `center ${focusY}%`;
+        // also set classes
+        applyOrientationClasses();
+      } catch (e) {
+        // If anything fails, at least set classes
+        applyOrientationClasses();
+      }
+    }
+
+    if (img.complete) {
+      computeFocusAndApply();
+    } else {
+      img.addEventListener('load', computeFocusAndApply);
+      img.addEventListener('error', applyOrientationClasses);
+    }
+  });
+}
+
+// Run once on load and again after images may change
+window.addEventListener('load', adjustMemoryImageOrientation);
+// Also run shortly after DOM ready in case some images are cached
+document.addEventListener('DOMContentLoaded', () => setTimeout(adjustMemoryImageOrientation, 80));
+
+/* =============================================================
+   13. NO-CROP TOGGLE — allow previewing images without cropping
+   Persists choice in localStorage and toggles `.no-crop` on the grid.
+   ============================================================= */
+function initNoCropToggle() {
+  const toggle = document.getElementById('noCropToggle');
+  const grid = document.querySelector('.memory-grid');
+  if (!toggle || !grid) return;
+
+  const saved = localStorage.getItem('memories-no-crop');
+  const enabled = saved === '1';
+  toggle.checked = enabled;
+  grid.classList.toggle('no-crop', enabled);
+
+  toggle.addEventListener('change', () => {
+    const on = toggle.checked;
+    grid.classList.toggle('no-crop', on);
+    localStorage.setItem('memories-no-crop', on ? '1' : '0');
+  });
+}
+
+document.addEventListener('DOMContentLoaded', initNoCropToggle);
+window.addEventListener('load', initNoCropToggle);
+
+// Initialize name gate and birthday overlay
+document.addEventListener('DOMContentLoaded', () => {
+  initNameGate();
+  if (isBirthdayToday()) {
+    showBirthdayOverlay();
+  }
+});

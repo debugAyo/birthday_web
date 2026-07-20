@@ -21,6 +21,43 @@
 </head>
 <body>
 
+  <!-- ===== NAME GATE ===== -->
+  <div id="nameGate" class="name-gate">
+    <div class="name-gate-card">
+      <div class="name-gate-divider" aria-hidden="true">
+        <span class="divider-line"></span>
+        <span class="divider-ornament">&#10022;</span>
+        <span class="divider-line"></span>
+      </div>
+      <h2 class="name-gate-title">Someone has a surprise for you...</h2>
+      <p class="name-gate-subtitle">Type your name to enter</p>
+      <form id="nameGateForm" class="name-gate-form" autocomplete="off">
+        <input type="text" id="nameGateInput" class="name-gate-input" placeholder="Your first name" required maxlength="30" autofocus>
+        <button type="submit" class="name-gate-btn">
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+            <path d="M5 12h14M12 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===== BIRTHDAY CELEBRATION OVERLAY ===== -->
+  <div id="birthdayOverlay" class="birthday-overlay" hidden>
+    <canvas id="birthdayConfetti" aria-hidden="true"></canvas>
+    <div class="birthday-overlay-content">
+      <div class="birthday-overlay-divider" aria-hidden="true">
+        <span class="divider-line"></span>
+        <span class="divider-ornament">&#10022;</span>
+        <span class="divider-line"></span>
+      </div>
+      <h1 class="birthday-overlay-title">Happy Birthday!</h1>
+      <p class="birthday-overlay-name">Precious</p>
+      <p class="birthday-overlay-subtitle">Today is your special day</p>
+      <button id="birthdayOverlayBtn" class="birthday-overlay-btn">Tap to enter &#10024;</button>
+    </div>
+  </div>
+
   <!-- ===== THEME TOGGLE ===== -->
   <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
     <svg class="theme-icon theme-icon--sun" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
@@ -97,11 +134,11 @@
             <div class="envelope-inside">
               <div class="envelope-glow"></div>
               <div class="envelope-poem">
-                <p class="env-poem-line" data-text="soft as a breeze in the wheat is her hair,"></p>
-                <p class="env-poem-line" data-text="wild as the winds of a tempest is her nature,"></p>
-                <p class="env-poem-line" data-text="elegant as a leaf floating in the autumnal gale,"></p>
-                <p class="env-poem-line" data-text="sweetly scented as a spring morn."></p>
-                <p class="env-poem-attribution" data-text="— The Poette"></p>
+                <p class="env-poem-line" data-text="Silent heroes walk among us,"></p>
+                <p class="env-poem-line" data-text="in their deeds, they don't fuss,"></p>
+                <p class="env-poem-line" data-text="quietly they spread their care,"></p>
+                <p class="env-poem-line" data-text="in their humble way, they brighten every day."></p>
+                <p class="env-poem-attribution" data-text="— Maya Anthony, The Silent Hero"></p>
               </div>
             </div>
             <!-- Front cover (slides away on open) -->
@@ -109,7 +146,7 @@
               <div class="envelope-flap-top"></div>
               <div class="envelope-seal">
                 <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
-                  <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="currentColor"/>
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="currentColor"/>
                 </svg>
               </div>
             </div>
@@ -127,7 +164,7 @@
       <article class="letter-card">
         <div class="letter-seal" aria-hidden="true">
           <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
-            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="currentColor"/>
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="currentColor"/>
           </svg>
         </div>
 
@@ -135,9 +172,9 @@
 
         <div class="letter-body">
           <!-- ✦ CHANGE: Letter content — edit each paragraph as desired -->
-          <p class="letter-paragraph">From the moment our paths crossed, you've carried a quiet grace that leaves everyone around you a little warmer, a little lighter. Your calm nature, your gentle strength, your brilliant mind — they ripple through every life you touch.</p>
-          <p class="letter-paragraph">Today, on your special day, I wanted to remind you just how extraordinary you are. You move through this world like the wind itself — sometimes a soft breeze that soothes, sometimes a steady force that inspires. Never doubt the beauty of who you are.</p>
-          <p class="letter-paragraph">May this new year of your life bring you the same peace you bring to others, the same light you radiate, and the same depth of love you so freely give. You are rare. You are precious — in every sense of the word.</p>
+          <p class="letter-paragraph">From the moment you came into this world, you've carried a quiet grace that leaves everyone around you a little warmer, a little lighter. Your calm nature, your gentle strength, your brilliant mind — they ripple through every life you touch.</p>
+          <p class="letter-paragraph">Today, on your special day, this is a reminder of just how extraordinary you are. You move through this world like the wind itself — sometimes a soft breeze that soothes, sometimes a steady force that inspires. Never doubt the beauty of who you are.</p>
+          <p class="letter-paragraph">May this new year of your life bring you the same peace you bring to others, the same light you radiate, and the same joy you so freely share. You are rare. You are precious — in every sense of the word.</p>
         </div>
 
         <!-- Poem inset -->
@@ -184,7 +221,7 @@
         </div>
 
         <!-- ✦ CHANGE: Signature -->
-        <p class="letter-signature">With all my heart,<br><span class="signature-name">[SIGNATURE]</span></p>
+        <p class="letter-signature">With warmth,<br><span class="signature-name">A Friend</span></p>
       </article>
     </section>
 
@@ -192,64 +229,55 @@
          SECTION 4 — MEMORIES
          ============================================================ -->
     <section id="memories" class="section" data-index="3">
-      <h2 class="section-title">Moments We've Shared</h2>
+      <h2 class="section-title">Moments to Cherish</h2>
+
+      <div class="memory-controls">
+        <label class="memory-control">
+          <input type="checkbox" id="noCropToggle">
+          <span>No crop (show full image)</span>
+        </label>
+      </div>
 
       <div class="memory-grid">
         <!-- ✦ CHANGE: Memory cards — edit captions and image placeholder colors -->
         <figure class="memory-card">
-          <div class="memory-placeholder" style="background: linear-gradient(135deg, #F5D6D0, #E8C4C0)">
-            <svg class="memory-icon" viewBox="0 0 48 48" width="44" height="44" aria-hidden="true">
-              <path d="M32 16h4a4 4 0 0 1 0 8h-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-              <rect x="8" y="16" width="24" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/>
-              <path d="M12 16v-4h16v4" fill="none" stroke="currentColor" stroke-width="1.8"/>
-              <path d="M16 32v4h8v-4" fill="none" stroke="currentColor" stroke-width="1.8"/>
-            </svg>
+          <div class="memory-placeholder">
+            <img src="images/WhatsApp Image 2026-07-15 at 3.23.56 PM.jpeg" alt="Memory 1" loading="lazy">
           </div>
-          <figcaption class="memory-caption">"soft as a breeze in the wheat is her hair"<br><span class="memory-caption-src">— The Poette</span></figcaption>
+          <figcaption class="memory-caption">"quietly they spread their care, they brighten every day"<br><span class="memory-caption-src">— Maya Anthony</span></figcaption>
         </figure>
 
         <figure class="memory-card">
-          <div class="memory-placeholder" style="background: linear-gradient(135deg, #D4C5E2, #C4B5D2)">
-            <svg class="memory-icon" viewBox="0 0 48 48" width="44" height="44" aria-hidden="true">
-              <path d="M28 10a14 14 0 1 0 14 14 12 12 0 0 1-14-14z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-            </svg>
+          <div class="memory-placeholder">
+            <img src="images/WhatsApp Image 2026-07-15 at 3.23.57 PM (1).jpeg" alt="Memory 2" loading="lazy">
           </div>
           <figcaption class="memory-caption">"whispers calm to restless seas"<br><span class="memory-caption-src">— Rochan</span></figcaption>
         </figure>
 
         <figure class="memory-card">
-          <div class="memory-placeholder" style="background: linear-gradient(135deg, #B8D4B8, #A8C4A8)">
-            <svg class="memory-icon" viewBox="0 0 48 48" width="44" height="44" aria-hidden="true">
-              <circle cx="24" cy="24" r="6" fill="none" stroke="currentColor" stroke-width="1.8"/>
-              <path d="M24 4v4M24 40v4M4 24h4M40 24h4M8.7 8.7l2.8 2.8M36.5 36.5l2.8 2.8M8.7 39.3l2.8-2.8M36.5 11.5l2.8-2.8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-            </svg>
+          <div class="memory-placeholder">
+            <img src="images/WhatsApp Image 2026-07-15 at 3.23.57 PM (2).jpeg" alt="Memory 3" loading="lazy">
           </div>
           <figcaption class="memory-caption">"who has seen the wind? neither I nor you"<br><span class="memory-caption-src">— Christina Rossetti</span></figcaption>
         </figure>
 
         <figure class="memory-card">
-          <div class="memory-placeholder" style="background: linear-gradient(135deg, #E8D5B7, #D8C5A7)">
-            <svg class="memory-icon" viewBox="0 0 48 48" width="44" height="44" aria-hidden="true">
-              <path d="M24 4l4.6 9.3 10.4 1.5-7.5 7.3 1.8 10.4L24 28l-9.3 4.9 1.8-10.4-7.5-7.3 10.4-1.5z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
-            </svg>
+          <div class="memory-placeholder">
+            <img src="images/WhatsApp Image 2026-07-15 at 3.23.57 PM (3).jpeg" alt="Memory 4" loading="lazy">
           </div>
           <figcaption class="memory-caption">"I am the whisper, not the shout"<br><span class="memory-caption-src">— I, the Kindness</span></figcaption>
         </figure>
 
         <figure class="memory-card">
-          <div class="memory-placeholder" style="background: linear-gradient(135deg, #C5E0E8, #B5D0D8)">
-            <svg class="memory-icon" viewBox="0 0 48 48" width="44" height="44" aria-hidden="true">
-              <path d="M24 2l8 14 14 2-10 10 2 14-14-6-14 6 2-14L2 18l14-2z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
-            </svg>
+          <div class="memory-placeholder">
+            <img src="images/WhatsApp Image 2026-07-15 at 3.23.57 PM (4).jpeg" alt="Memory 5" loading="lazy">
           </div>
           <figcaption class="memory-caption">"you touch my heart and mind like the cool breeze"<br><span class="memory-caption-src">— Anil Kumar Panda</span></figcaption>
         </figure>
 
         <figure class="memory-card">
-          <div class="memory-placeholder" style="background: linear-gradient(135deg, #E8C5D0, #D8B5C0)">
-            <svg class="memory-icon" viewBox="0 0 48 48" width="44" height="44" aria-hidden="true">
-              <path d="M24 42l-2.9-2.6C9.1 28.7 2 22.4 2 14.7 2 8.4 7.1 3 13 3c3.5 0 6.8 1.8 8.7 4.6C24.6 4.8 27.9 3 31.4 3 37.3 3 42.4 8.4 42.4 14.7c0 7.7-7.1 14-19.1 24.7L24 42z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
-            </svg>
+          <div class="memory-placeholder">
+            <img src="images/WhatsApp Image 2026-07-15 at 3.23.57 PM.jpeg" alt="Memory 6" loading="lazy">
           </div>
           <figcaption class="memory-caption">"the wind, soft and constant, wraps my soul"<br><span class="memory-caption-src">— Mohammad Younus</span></figcaption>
         </figure>
@@ -294,7 +322,7 @@
       </div>
 
       <footer class="site-footer">
-        <p>&#10022; Made with love &#10022;</p>
+        <p>&#10022; Made with care &#10022;</p>
       </footer>
     </section>
 

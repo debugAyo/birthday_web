@@ -350,8 +350,8 @@ ul, ol { list-style: none; }
 
 /* ---- Envelope ---- */
 .envelope {
-  width: 280px;
-  height: 200px;
+  width: 400px;
+  height: 300px;
   perspective: 1000px;
   cursor: pointer;
   position: relative;
@@ -410,12 +410,12 @@ ul, ol { list-style: none; }
 
 .env-poem-line {
   font-family: var(--font-letter);
-  font-size: clamp(0.65rem, 1.4vw, 0.8rem);
+  font-size: clamp(0.8rem, 1.6vw, 1rem);
   font-style: italic;
   color: var(--text);
-  line-height: 1.7;
+  line-height: 1.8;
   margin: 0;
-  min-height: 1.4em;
+  min-height: 1.6em;
   opacity: 0;
   transition: opacity 0.5s ease;
 }
@@ -441,9 +441,9 @@ ul, ol { list-style: none; }
 
 .env-poem-attribution {
   font-family: var(--font-script);
-  font-size: clamp(0.7rem, 1.4vw, 0.85rem);
+  font-size: clamp(0.8rem, 1.6vw, 1rem);
   color: var(--rose);
-  margin-top: 0.4rem;
+  margin-top: 0.5rem;
   opacity: 0;
   transition: opacity 0.5s ease;
 }
@@ -780,10 +780,34 @@ ul, ol { list-style: none; }
 
 .memory-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: var(--space-md);
-  max-width: 900px;
+  max-width: 960px;
   width: 100%;
+}
+
+.memory-controls {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  max-width: 960px;
+  margin: 0 0 var(--space-sm) 0;
+}
+
+.memory-control {
+  font-family: var(--font-body);
+  color: var(--text-soft);
+  font-size: 0.95rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Non-cropping mode — show full image with letterboxing */
+.memory-grid.no-crop .memory-placeholder img {
+  object-fit: contain !important;
+  object-position: center top !important;
+  background: var(--bg-card);
 }
 
 .memory-card {
@@ -811,11 +835,53 @@ ul, ol { list-style: none; }
 
 .memory-placeholder {
   width: 100%;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 1 / 1;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
+  overflow: hidden;
+}
+
+.memory-placeholder img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  display: block;
+  transition: transform 0.5s var(--ease-out);
+}
+
+/* Fallback for browsers that don't support `aspect-ratio` */
+@supports not (aspect-ratio: 1/1) {
+  .memory-placeholder {
+    display: block;
+    padding-top: 100%; /* 1:1 ratio fallback */
+  }
+
+  .memory-placeholder img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+  }
+}
+
+/* If an image is portrait, prefer showing the top of the image
+   so faces/heads are not cropped out of the square frame. */
+.memory-placeholder.portrait img {
+  object-position: top center;
+}
+
+.memory-placeholder.landscape img {
+  object-position: center center;
+}
+
+.memory-card:hover .memory-placeholder img {
+  transform: scale(1.05);
 }
 
 .memory-icon {
@@ -1179,12 +1245,233 @@ ul, ol { list-style: none; }
 }
 
 /* ============================================================
+   NAME GATE
+   ============================================================ */
+.name-gate {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+
+.name-gate.is-hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.name-gate-card {
+  text-align: center;
+  padding: var(--space-lg) var(--space-xl);
+  max-width: 420px;
+  width: 90%;
+}
+
+.name-gate-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-md);
+}
+
+.name-gate-title {
+  font-family: var(--font-heading);
+  font-size: clamp(1.4rem, 3vw, 1.8rem);
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: var(--space-xs);
+  line-height: 1.3;
+}
+
+.name-gate-subtitle {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: var(--text-muted);
+  margin-bottom: var(--space-md);
+}
+
+.name-gate-form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.name-gate-input {
+  font-family: var(--font-letter);
+  font-size: 1.1rem;
+  padding: 0.75rem 1.25rem;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--glass-bg);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: var(--text);
+  outline: none;
+  width: 220px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.name-gate-input::placeholder {
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.name-gate-input:focus {
+  border-color: var(--rose);
+  box-shadow: 0 0 0 3px rgba(212, 160, 176, 0.2);
+}
+
+.name-gate-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--rose);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s var(--ease-spring), background 0.3s ease;
+  flex-shrink: 0;
+}
+
+.name-gate-btn:hover {
+  transform: scale(1.1);
+  background: var(--mauve);
+}
+
+.name-gate-btn:active {
+  transform: scale(0.95);
+}
+
+/* ============================================================
+   BIRTHDAY OVERLAY
+   ============================================================ */
+.birthday-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+  transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+
+.birthday-overlay[hidden] {
+  display: flex;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.birthday-overlay.is-visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.birthday-overlay.is-hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+#birthdayConfetti {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.birthday-overlay-content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: var(--space-lg);
+}
+
+.birthday-overlay-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-md);
+}
+
+.birthday-overlay-title {
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: var(--space-xs);
+  animation: fadeInUp 0.8s ease 0.3s both;
+}
+
+.birthday-overlay-name {
+  font-family: var(--font-script);
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  color: var(--rose);
+  margin-bottom: var(--space-sm);
+  animation: fadeInUp 0.8s ease 0.5s both;
+}
+
+.birthday-overlay-subtitle {
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  color: var(--text-soft);
+  margin-bottom: var(--space-lg);
+  animation: fadeInUp 0.8s ease 0.7s both;
+}
+
+.birthday-overlay-btn {
+  font-family: var(--font-letter);
+  font-size: 1.1rem;
+  padding: 0.85rem 2.5rem;
+  border: 2px solid var(--rose);
+  border-radius: var(--radius-md);
+  color: var(--rose);
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s var(--ease-spring);
+  animation: fadeInUp 0.8s ease 0.9s both;
+}
+
+.birthday-overlay-btn:hover {
+  background: var(--rose);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(212, 160, 176, 0.35);
+}
+
+.birthday-overlay-btn:active {
+  transform: translateY(0);
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============================================================
    RESPONSIVE — TABLET & MOBILE
    ============================================================ */
 @media (max-width: 768px) {
   .envelope {
-    width: 220px;
-    height: 160px;
+    width: 320px;
+    height: 240px;
   }
 
   .envelope-seal {
@@ -1194,15 +1481,15 @@ ul, ol { list-style: none; }
   }
 
   .env-poem-line {
-    font-size: clamp(0.6rem, 1.3vw, 0.75rem);
+    font-size: clamp(0.75rem, 1.4vw, 0.9rem);
   }
 
   .env-poem-attribution {
-    font-size: clamp(0.65rem, 1.3vw, 0.8rem);
+    font-size: clamp(0.75rem, 1.4vw, 0.9rem);
   }
 
   .memory-grid {
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
     gap: var(--space-sm);
   }
 
@@ -1230,6 +1517,14 @@ ul, ol { list-style: none; }
   .scroll-hint {
     bottom: var(--space-md);
   }
+
+  .name-gate-card {
+    padding: var(--space-md) var(--space-lg);
+  }
+
+  .name-gate-input {
+    width: 200px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -1238,8 +1533,8 @@ ul, ol { list-style: none; }
   }
 
   .envelope {
-    width: 180px;
-    height: 130px;
+    width: 260px;
+    height: 200px;
   }
 
   .envelope-seal {
@@ -1254,11 +1549,11 @@ ul, ol { list-style: none; }
   }
 
   .env-poem-line {
-    font-size: clamp(0.55rem, 1.2vw, 0.7rem);
+    font-size: clamp(0.7rem, 1.3vw, 0.85rem);
   }
 
   .env-poem-attribution {
-    font-size: clamp(0.6rem, 1.2vw, 0.75rem);
+    font-size: clamp(0.7rem, 1.3vw, 0.85rem);
   }
 
   .memory-grid {
@@ -1277,6 +1572,21 @@ ul, ol { list-style: none; }
 
   .section-nav {
     display: none;
+  }
+
+  .name-gate-card {
+    padding: var(--space-md) var(--space-lg);
+  }
+
+  .name-gate-input {
+    width: 180px;
+    font-size: 1rem;
+    padding: 0.65rem 1rem;
+  }
+
+  .name-gate-btn {
+    width: 42px;
+    height: 42px;
   }
 }
 
@@ -1356,5 +1666,16 @@ ul, ol { list-style: none; }
   .memory-card {
     opacity: 1 !important;
     transform: none !important;
+  }
+
+  #birthdayConfetti {
+    display: none;
+  }
+
+  .birthday-overlay-title,
+  .birthday-overlay-name,
+  .birthday-overlay-subtitle,
+  .birthday-overlay-btn {
+    animation: none;
   }
 }
